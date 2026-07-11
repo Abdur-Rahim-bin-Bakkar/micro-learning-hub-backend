@@ -6,7 +6,13 @@ export const getCourses = async (
   res: Response
 ) => {
   try {
-    const courses = await getAllCourses();
+    const { search, category, level } = req.query;
+
+    const courses = await getAllCourses({
+      search: search as string,
+      category: category as string,
+      level: level as string,
+    });
 
     res.status(200).json({
       success: true,
@@ -14,6 +20,8 @@ export const getCourses = async (
       data: courses,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: "Failed to fetch courses",
