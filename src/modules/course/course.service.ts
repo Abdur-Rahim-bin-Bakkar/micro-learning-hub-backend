@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { getDB } from "../../config/db";
 
 type GetCoursesParams = {
@@ -39,3 +40,58 @@ export const getAllCourses = async ({
 
   return courses;
 };
+
+
+
+export const getCourseByIdService = async (
+  id: string
+) => {
+
+
+  const db = getDB();
+
+
+  const course = await db
+    .collection("courses")
+    .findOne({
+
+      _id: new ObjectId(id)
+
+    });
+
+
+  return course;
+
+
+}
+export const getFeaturedCoursesService = async()=>{
+
+
+    const db = getDB();
+
+
+    const coursesCollection =
+    db.collection("courses");
+
+
+
+    const courses = await coursesCollection
+        .find({
+
+            status:"published"
+
+        })
+        .sort({
+
+            rating:-1
+
+        })
+        .limit(4)
+        .toArray();
+
+
+
+    return courses;
+
+
+}
