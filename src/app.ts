@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import courseRoutes from "./modules/course/course.route";
-
+import announcementRoutes 
+from "./modules/announcement/announcement.route";
 const app = express();
 
 // Middlewares
@@ -13,6 +14,11 @@ app.use(express.json());
 
 
 app.use("/api/courses", courseRoutes);
+app.use(
+"/api/announcements",
+announcementRoutes
+);
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
