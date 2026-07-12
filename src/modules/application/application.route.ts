@@ -4,6 +4,7 @@ import {
     applicationController
 }
     from "./application.controller";
+import authMiddleware = require("../../middlewares/auth.middleware");
 
 
 
@@ -34,9 +35,8 @@ router.post(
 );
 router.get(
     "/status/:userId",
+    authMiddleware.verifyToken,
     applicationController.getApplicationStatus
 );
-
-
 
 export const applicationRoute = router;

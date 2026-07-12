@@ -21,6 +21,7 @@ app.use(
 );
 app.use(
   "/api/applications",
+  
   applicationRoute.applicationRoute
 );
 
