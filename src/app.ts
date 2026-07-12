@@ -3,6 +3,7 @@ import cors from "cors";
 import courseRoutes from "./modules/course/course.route";
 import announcementRoutes 
 from "./modules/announcement/announcement.route";
+import applicationRoute = require("./modules/application/application.route");
 const app = express();
 
 // Middlewares
@@ -17,6 +18,10 @@ app.use("/api/courses", courseRoutes);
 app.use(
 "/api/announcements",
 announcementRoutes
+);
+app.use(
+"/api/application",
+applicationRoute.applicationRoute
 );
 
 app.get("/", (req, res) => {
