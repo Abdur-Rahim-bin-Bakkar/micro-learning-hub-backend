@@ -20,7 +20,7 @@ app.use(
 announcementRoutes
 );
 app.use(
-"/api/application",
+"/api/applications",
 applicationRoute.applicationRoute
 );
 
