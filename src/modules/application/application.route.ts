@@ -3,21 +3,21 @@ import express from "express";
 import {
     applicationController
 }
-from "./application.controller";
+    from "./application.controller";
 
 
 
 const router =
-express.Router();
+    express.Router();
 
 
 
 
 router.post(
 
-"/teacher",
+    "/teacher",
 
-applicationController.createTeacherApplication
+    applicationController.createTeacherApplication
 
 );
 
@@ -27,12 +27,15 @@ applicationController.createTeacherApplication
 
 router.post(
 
-"/student",
+    "/student",
 
-applicationController.createStudentApplication
+    applicationController.createStudentApplication
 
 );
-
+router.get(
+    "/status/:userId",
+    applicationController.getApplicationStatus
+);
 
 
 

@@ -3,59 +3,59 @@ import { Request, Response } from "express";
 import {
     applicationService
 }
-from "./application.service";
+    from "./application.service";
 
 
 
 
 
-const createTeacherApplication = async(
+const createTeacherApplication = async (
 
-req:Request,
+    req: Request,
 
-res:Response
+    res: Response
 
-)=>{
-
-
-try{
+) => {
 
 
-const result =
-await applicationService
-.createTeacherApplication(
-req.body
-);
+    try {
 
 
-
-res.status(201).send({
-
-success:true,
-
-message:"Teacher application submitted",
-
-data:result
-
-});
+        const result =
+            await applicationService
+                .createTeacherApplication(
+                    req.body
+                );
 
 
 
-}
+        res.status(201).send({
 
-catch(error){
+            success: true,
 
+            message: "Teacher application submitted",
 
-res.status(500).send({
+            data: result
 
-success:false,
-
-message:"Server error"
-
-});
+        });
 
 
-}
+
+    }
+
+    catch (error) {
+
+
+        res.status(500).send({
+
+            success: false,
+
+            message: "Server error"
+
+        });
+
+
+    }
 
 
 
@@ -67,71 +67,81 @@ message:"Server error"
 
 
 
-const createStudentApplication = async(
+const createStudentApplication = async (
 
-req:Request,
+    req: Request,
 
-res:Response
+    res: Response
 
-)=>{
-
-
-try{
+) => {
 
 
-const result =
-await applicationService
-.createStudentApplication(
-req.body
-);
+    try {
 
 
-
-res.status(201).send({
-
-success:true,
-
-message:"Student application submitted",
-
-data:result
-
-});
+        const result =
+            await applicationService
+                .createStudentApplication(
+                    req.body
+                );
 
 
 
-}
+        res.status(201).send({
 
-catch(error){
+            success: true,
 
+            message: "Student application submitted",
 
-res.status(500).send({
+            data: result
 
-success:false,
-
-message:"Server error"
-
-});
+        });
 
 
-}
+
+    }
+
+    catch (error) {
+
+
+        res.status(500).send({
+
+            success: false,
+
+            message: "Server error"
+
+        });
+
+
+    }
 
 
 
 };
 
+const getApplicationStatus = async (
+    req: Request,
+    res: Response
+) => {
 
+    const { userId } = req.params;
+
+    const result =
+        await applicationService.getApplicationStatus(userId);
+
+    res.status(200).json({
+        success: true,
+        ...result,
+    });
+
+};
 
 
 
 
 
 export const applicationController = {
-
-
-createTeacherApplication,
-
-
-createStudentApplication
-
-
+    createTeacherApplication,
+    createStudentApplication,
+    getApplicationStatus
 };

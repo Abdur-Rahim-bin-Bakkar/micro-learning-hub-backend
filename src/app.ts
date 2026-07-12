@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import courseRoutes from "./modules/course/course.route";
-import announcementRoutes 
-from "./modules/announcement/announcement.route";
+import announcementRoutes
+  from "./modules/announcement/announcement.route";
 import applicationRoute = require("./modules/application/application.route");
 const app = express();
 
@@ -16,12 +16,12 @@ app.use(express.json());
 
 app.use("/api/courses", courseRoutes);
 app.use(
-"/api/announcements",
-announcementRoutes
+  "/api/announcements",
+  announcementRoutes
 );
 app.use(
-"/api/applications",
-applicationRoute.applicationRoute
+  "/api/applications",
+  applicationRoute.applicationRoute
 );
 
 app.get("/", (req, res) => {
@@ -31,4 +31,4 @@ app.get("/", (req, res) => {
   });
 });
 
-export default app;
+export default app; 
