@@ -5,6 +5,7 @@ import {
 }
     from "./application.controller";
 import authMiddleware = require("../../middlewares/auth.middleware");
+import verifyToken = require("../../middlewares/auth.middleware");
 
 
 
@@ -17,6 +18,7 @@ const router =
 router.post(
 
     "/teacher",
+    authMiddleware.verifyToken,
 
     applicationController.createTeacherApplication
 
@@ -29,6 +31,8 @@ router.post(
 router.post(
 
     "/student",
+    authMiddleware.verifyToken,
+
 
     applicationController.createStudentApplication
 

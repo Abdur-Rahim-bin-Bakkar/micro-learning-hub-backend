@@ -3,6 +3,7 @@ import cors from "cors";
 import courseRoutes from "./modules/course/course.route";
 import announcementRoutes
   from "./modules/announcement/announcement.route";
+  import helpDeskRoutes from "./modules/helpDesk/helpDesk.routes";
 import applicationRoute = require("./modules/application/application.route");
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(
   
   applicationRoute.applicationRoute
 );
+app.use("/api/helpdesk", helpDeskRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({
