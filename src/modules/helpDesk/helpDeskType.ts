@@ -18,3 +18,10 @@ export interface IReaction {
   love: string[];
   necessary: string[];
 }
+export interface IComment {
+  userId: string;
+  name: string;
+  photo: string;
+  comment: string;
+  createdAt: Date;
+}
