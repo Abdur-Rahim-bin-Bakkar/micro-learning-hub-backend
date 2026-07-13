@@ -11,7 +11,8 @@ export const createPostService = async (
     issue: payload.issue,
     description: payload.description,
     image: payload.image,
-
+    uimage:payload.uimage,
+    name:payload.name,
     reactions: {
       like: [],
       love: [],

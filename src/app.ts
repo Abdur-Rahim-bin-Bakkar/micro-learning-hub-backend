@@ -5,6 +5,7 @@ import announcementRoutes
   from "./modules/announcement/announcement.route";
   import helpDeskRoutes from "./modules/helpDesk/helpDesk.routes";
 import applicationRoute = require("./modules/application/application.route");
+import userRoutes from "./modules/user/user.routes";
 const app = express();
 
 // Middlewares
@@ -26,6 +27,10 @@ app.use(
   applicationRoute.applicationRoute
 );
 app.use("/api/helpdesk", helpDeskRoutes);
+app.use(
+  "/api/users",
+  userRoutes
+);
 
 app.get("/", (req, res) => {
   res.status(200).json({

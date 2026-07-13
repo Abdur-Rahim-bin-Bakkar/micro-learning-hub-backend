@@ -3,6 +3,8 @@ export interface ICreateHelpDeskPost {
   issue: string;
   description: string;
   image: string;
+  name: string;
+  uimage: string
 }
 
 export interface IComment {
