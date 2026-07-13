@@ -3,6 +3,30 @@ import {
   getAllHelpPosts,
   getSingleHelpPost,
 } from "./helpDesk.service";
+import { Request, Response } from "express";
+import { createPostService } from "./createPostService";
+
+export const createPost = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const result = await createPostService(req.body);
+
+    res.status(201).json({
+      success: true,
+      message: "Post created successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to create post",
+    });
+  }
+};
 
 export const getPosts = async (
   req: Request,

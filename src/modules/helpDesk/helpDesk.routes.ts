@@ -3,13 +3,24 @@ import {
   getPost,
   getPosts,
 } from "./helpDesk.controller";
+import {
+  createPost,
+  getPost,
+  getPosts,
+} from "./helpDesk.controller";
 import authMiddleware = require("../../middlewares/auth.middleware");
 import checkTSA = require("../../middlewares/checkTSA");
 
 const router = Router();
 
-router.get("/",authMiddleware.verifyToken,checkTSA.verifyTSA, getPosts);
+router.get("/", authMiddleware.verifyToken, checkTSA.verifyTSA, getPosts);
 
 router.get("/:id", getPost);
+router.post(
+  "/create-post",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  createPost
+);
 
 export default router;

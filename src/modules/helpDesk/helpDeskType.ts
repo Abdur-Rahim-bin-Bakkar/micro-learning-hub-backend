@@ -1,0 +1,18 @@
+export interface ICreateHelpDeskPost {
+  userId: string;
+  issue: string;
+  description: string;
+  image: string;
+}
+
+export interface IComment {
+  userId: string;
+  comment: string;
+  createdAt: Date;
+}
+
+export interface IReaction {
+  like: string[];
+  love: string[];
+  necessary: string[];
+}
