@@ -8,6 +8,7 @@ import applicationRoute = require("./modules/application/application.route");
 import userRoutes from "./modules/user/user.routes";
 import paymentRoute from "./modules/payment/payment.route";
 // import paymentRoutes from "./modules/payment/payment.route";
+import examRoutes from "./modules/exam/exam.route";
 const app = express();
 
 // Middlewares
@@ -50,5 +51,6 @@ app.use(
   "/api/payment",
   paymentRoute
 );
+app.use("/api/exams", examRoutes);
 
 export default app; 
