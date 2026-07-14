@@ -6,6 +6,7 @@ import announcementRoutes
   import helpDeskRoutes from "./modules/helpDesk/helpDesk.routes";
 import applicationRoute = require("./modules/application/application.route");
 import userRoutes from "./modules/user/user.routes";
+import paymentRoute from "./modules/payment/payment.route";
 const app = express();
 
 // Middlewares
@@ -38,5 +39,9 @@ app.get("/", (req, res) => {
     message: "🚀 Micro Learning Hub Server Running",
   });
 });
+app.use(
+    "/api/payment",
+    paymentRoute
+);
 
 export default app; 
