@@ -3,14 +3,21 @@ import cors from "cors";
 import courseRoutes from "./modules/course/course.route";
 import announcementRoutes
   from "./modules/announcement/announcement.route";
-  import helpDeskRoutes from "./modules/helpDesk/helpDesk.routes";
+import helpDeskRoutes from "./modules/helpDesk/helpDesk.routes";
 import applicationRoute = require("./modules/application/application.route");
 import userRoutes from "./modules/user/user.routes";
 import paymentRoute from "./modules/payment/payment.route";
+// import paymentRoutes from "./modules/payment/payment.route";
 const app = express();
 
 // Middlewares
 app.use(cors());
+app.use(
+  "/api/payment/webhook",
+  express.raw({
+    type: "application/json",
+  })
+);
 app.use(express.json());
 
 
@@ -24,7 +31,7 @@ app.use(
 );
 app.use(
   "/api/applications",
-  
+
   applicationRoute.applicationRoute
 );
 app.use("/api/helpdesk", helpDeskRoutes);
@@ -40,8 +47,8 @@ app.get("/", (req, res) => {
   });
 });
 app.use(
-    "/api/payment",
-    paymentRoute
+  "/api/payment",
+  paymentRoute
 );
 
 export default app; 
