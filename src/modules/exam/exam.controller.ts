@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ExamService } from "./exam.service";
 
+
 const getAllExams = async (req: Request, res: Response) => {
     try {
         const exams = await ExamService.getAllExams();

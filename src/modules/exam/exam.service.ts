@@ -5,6 +5,7 @@ const examCollection = () => getDB().collection("exams");
 const questionCollection = () =>
     getDB().collection("questions");
 
+
 const examResultCollection = () =>
     getDB().collection("examResults");
 const getAllExams = async () => {
@@ -130,10 +131,12 @@ const createExam = async (
         createdAt: new Date(),
     };
 
-    const result =
-        await examCollection().insertOne(exam);
+    const result = await examCollection().insertOne(exam);
 
-    return result;
+    return {
+        _id: result.insertedId,
+        ...exam,
+    };
 };
 const addQuestions = async (
     examId: string,
@@ -149,9 +152,13 @@ const addQuestions = async (
     }
 
     const questions = payload.questions.map((item: any) => ({
+
         ...item,
-        examId: new ObjectId(examId),
+
+        examTitle: exam.title,
+
         createdAt: new Date(),
+
     }));
 
     const result = await questionCollection().insertMany(
