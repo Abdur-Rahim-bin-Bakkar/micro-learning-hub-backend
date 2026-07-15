@@ -6,7 +6,7 @@ import { getDB } from "../../config/db";
 // users collection
 
 const userCollection = () =>
-    getDB().collection("users");
+    getDB().collection("user");
 
 
 
