@@ -3,7 +3,7 @@ import {
   getAllHelpPosts,
   getSingleHelpPost,
 } from "./helpDesk.service";
-import { Request, Response } from "express";
+// import { Request, Response } from "express";
 import { createPostService } from "./createPostService";
 
 export const createPost = async (
@@ -55,7 +55,18 @@ export const getPost = async (
   res: Response
 ) => {
   try {
-    const post = await getSingleHelpPost(req.params.id);
+    const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Post ID is required",
+      });
+    }
+
+    const post = await getSingleHelpPost(id);
 
     if (!post) {
       return res.status(404).json({

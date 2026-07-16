@@ -10,6 +10,7 @@ dotenv.config();
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const PORT = process.env.PORT || 5000;
+
 const startServer = async () => {
   try {
     // Connect Database
@@ -21,6 +22,7 @@ const startServer = async () => {
     });
   } catch (error) {
     console.error("❌ Failed to start server:", error);
+    process.exit(1);
   }
 };
 

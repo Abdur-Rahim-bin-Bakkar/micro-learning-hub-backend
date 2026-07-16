@@ -21,13 +21,11 @@ export const addCommentService = async (
   };
 
   const result = await collection.updateOne(
-    {
-      _id: new ObjectId(postId),
-    },
+    { _id: new ObjectId(postId) },
     {
       $push: {
         comments: newComment,
-      },
+      } as any,
       $set: {
         updatedAt: new Date(),
       },

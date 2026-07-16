@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const announcement_controller_1 = require("./announcement.controller");
+const authMiddleware = require("../../middlewares/auth.middleware");
+const checkTSA = require("../../middlewares/checkTSA");
+const router = (0, express_1.Router)();
+router.get("/", announcement_controller_1.getAnnouncements);
+router.post("/", authMiddleware.verifyToken, checkTSA.verifyTSA, announcement_controller_1.postAnnouncement);
+exports.default = router;
+//# sourceMappingURL=announcement.route.js.map

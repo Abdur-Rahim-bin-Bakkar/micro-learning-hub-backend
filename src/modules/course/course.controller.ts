@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getAllCourses } from "./course.service";
-import {getCourseByIdService,getFeaturedCoursesService} from "./course.service";
+import { getCourseByIdService, getFeaturedCoursesService } from "./course.service";
 
 export const getCourses = async (
   req: Request,
@@ -34,78 +34,72 @@ export const getCourseById = async (
   req: Request,
   res: Response
 ) => {
+  try {
+    const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Course ID is required",
+      });
+    }
+
+    const course = await getCourseByIdService(id);
+
+    res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get course",
+    });
+  }
+};
+export const getFeaturedCourses = async (
+  req: Request,
+  res: Response
+) => {
 
   try {
 
-    const { id } = req.params;
 
+    const courses =
+      await getFeaturedCoursesService();
 
-    const course = await getCourseByIdService(id);
 
 
     res.status(200).json({
 
       success: true,
 
-      data: course
+      message: "Featured courses fetched successfully",
+
+      data: courses
 
     });
 
 
+
   } catch (error) {
+
+
+    console.error(error);
+
+
 
     res.status(500).json({
 
       success: false,
 
-      message: "Failed to get course"
+      message: "Failed to fetch featured courses"
 
     });
 
+
   }
-
-}
-export const getFeaturedCourses = async(
-    req:Request,
-    res:Response
-)=>{
-
-    try{
-
-
-        const courses =
-        await getFeaturedCoursesService();
-
-
-
-        res.status(200).json({
-
-            success:true,
-
-            message:"Featured courses fetched successfully",
-
-            data:courses
-
-        });
-
-
-
-    }catch(error){
-
-
-        console.error(error);
-
-
-
-        res.status(500).json({
-
-            success:false,
-
-            message:"Failed to fetch featured courses"
-
-        });
-
-
-    }
 
 }

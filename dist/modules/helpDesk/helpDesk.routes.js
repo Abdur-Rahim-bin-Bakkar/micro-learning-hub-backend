@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const helpDesk_controller_1 = require("./helpDesk.controller");
+const authMiddleware = require("../../middlewares/auth.middleware");
+const checkTSA = require("../../middlewares/checkTSA");
+const reaction_controller_1 = require("./reaction.controller");
+const comment_controller_1 = require("./comment.controller");
+const router = (0, express_1.Router)();
+router.post("/:id/react", authMiddleware.verifyToken, checkTSA.verifyTSA, reaction_controller_1.reactToPost);
+router.post("/:id/comment", authMiddleware.verifyToken, checkTSA.verifyTSA, comment_controller_1.addComment);
+router.get("/", authMiddleware.verifyToken, checkTSA.verifyTSA, helpDesk_controller_1.getPosts);
+router.get("/:id", helpDesk_controller_1.getPost);
+router.post("/create-post", authMiddleware.verifyToken, checkTSA.verifyTSA, helpDesk_controller_1.createPost);
+exports.default = router;
+//# sourceMappingURL=helpDesk.routes.js.map

@@ -6,7 +6,16 @@ export const addComment = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Post ID is required",
+      });
+    }
 
     const {
       userId,
@@ -23,7 +32,7 @@ export const addComment = async (
       comment
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Comment added successfully",
       data: result,
@@ -31,7 +40,7 @@ export const addComment = async (
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Failed to add comment",
     });

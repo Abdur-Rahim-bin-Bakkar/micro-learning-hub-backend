@@ -120,20 +120,26 @@ const createStudentApplication = async (
 };
 
 const getApplicationStatus = async (
-    req: Request,
-    res: Response
+  req: Request,
+  res: Response
 ) => {
+  const userId = Array.isArray(req.params.userId)
+    ? req.params.userId[0]
+    : req.params.userId;
 
-    const { userId } = req.params;
-
-    const result =
-        await applicationService.getApplicationStatus(userId);
-
-    res.status(200).json({
-        success: true,
-        ...result,
+  if (!userId) {
+    return res.status(400).json({
+      success: false,
+      message: "User ID is required",
     });
+  }
 
+  const result = await applicationService.getApplicationStatus(userId);
+
+  res.status(200).json({
+    success: true,
+    ...result,
+  });
 };
 
 
