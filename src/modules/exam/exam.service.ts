@@ -184,11 +184,105 @@ const getExamResult = async (
 
     return result;
 };
+const getTeacherExams = async (userId: string) => {
+  const exams = await examCollection()
+    .find({ createdBy: new ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .toArray();
+  return exams;
+};
+
+const updateExam = async (examId: string, userId: string, payload: any) => {
+  const exam = await examCollection().findOne({ _id: new ObjectId(examId) });
+  if (!exam) throw new Error("Exam not found");
+  if (exam.createdBy.toString() !== userId) throw new Error("Unauthorized to update this exam");
+
+  const { _id, createdAt, createdBy, ...updateData } = payload;
+  const result = await examCollection().updateOne(
+    { _id: new ObjectId(examId) },
+    { $set: { ...updateData, updatedAt: new Date() } }
+  );
+  return result;
+};
+
+const deleteExam = async (examId: string, userId: string) => {
+  const exam = await examCollection().findOne({ _id: new ObjectId(examId) });
+  if (!exam) throw new Error("Exam not found");
+  if (exam.createdBy.toString() !== userId) throw new Error("Unauthorized to delete this exam");
+
+  await examCollection().deleteOne({ _id: new ObjectId(examId) });
+  await questionCollection().deleteMany({ examTitle: exam.title });
+  return { deleted: true };
+};
+
+const updateQuestion = async (questionId: string, userId: string, payload: any) => {
+  const question = await questionCollection().findOne({ _id: new ObjectId(questionId) });
+  if (!question) throw new Error("Question not found");
+
+  const exam = await examCollection().findOne({ title: question.examTitle });
+  if (!exam || exam.createdBy !== userId) throw new Error("Unauthorized");
+
+  const { _id, ...updateData } = payload;
+  await questionCollection().updateOne(
+    { _id: new ObjectId(questionId) },
+    { $set: updateData }
+  );
+  return { updated: true };
+};
+
+const deleteQuestion = async (questionId: string, userId: string) => {
+  const question = await questionCollection().findOne({ _id: new ObjectId(questionId) });
+  if (!question) throw new Error("Question not found");
+
+  const exam = await examCollection().findOne({ title: question.examTitle });
+  if (!exam || exam.createdBy !== userId) throw new Error("Unauthorized");
+
+  await questionCollection().deleteOne({ _id: new ObjectId(questionId) });
+  return { deleted: true };
+};
+
+const getExamResultsForTeacher = async (examId: string, userId: string) => {
+  const exam = await examCollection().findOne({ _id: new ObjectId(examId) });
+  if (!exam) throw new Error("Exam not found");
+  if (exam.createdBy !== userId) throw new Error("Unauthorized");
+
+  const results = await examResultCollection()
+    .find({ examId: new ObjectId(examId) })
+    .toArray();
+  return results;
+};
+
+const getAllStudentResults = async (userId: string) => {
+  const results = await examResultCollection()
+    .find({ studentId: new ObjectId(userId) })
+    .sort({ submittedAt: -1 })
+    .toArray();
+
+  const resultsWithExam = await Promise.all(
+    results.map(async (r: any) => {
+      let examTitle = "Unknown Exam";
+      try {
+        const exam = await examCollection().findOne({ _id: r.examId });
+        if (exam) examTitle = exam.title;
+      } catch {}
+      return { ...r, examTitle };
+    })
+  );
+  return resultsWithExam;
+};
+
 export const ExamService = {
     getAllExams,
     getSingleExam,
     submitExam,
     createExam,
     addQuestions,
-    getExamResult
+    getExamResult,
+    getTeacherExams,
+    updateExam,
+    deleteExam,
+    updateQuestion,
+    deleteQuestion,
+    getExamResultsForTeacher,
+    getAllStudentResults,
 };

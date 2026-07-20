@@ -195,11 +195,93 @@ const getExamResult = async (
   }
 };
 
+const getTeacherExams = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userInfo?._id?.toString();
+    const exams = await ExamService.getTeacherExams(userId);
+    return res.status(200).json({ success: true, data: exams });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const updateExam = async (req: AuthRequest, res: Response) => {
+  try {
+    const examId = Array.isArray(req.params.examId) ? req.params.examId[0] : req.params.examId;
+    const userId = req.userInfo?._id?.toString();
+    const result = await ExamService.updateExam(examId, userId, req.body);
+    return res.status(200).json({ success: true, data: result });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const deleteExam = async (req: AuthRequest, res: Response) => {
+  try {
+    const examId = Array.isArray(req.params.examId) ? req.params.examId[0] : req.params.examId;
+    const userId = req.userInfo?._id?.toString();
+    const result = await ExamService.deleteExam(examId, userId);
+    return res.status(200).json({ success: true, data: result });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const updateQuestion = async (req: AuthRequest, res: Response) => {
+  try {
+    const questionId = Array.isArray(req.params.questionId) ? req.params.questionId[0] : req.params.questionId;
+    const userId = req.userInfo?._id?.toString();
+    const result = await ExamService.updateQuestion(questionId, userId, req.body);
+    return res.status(200).json({ success: true, data: result });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const deleteQuestion = async (req: AuthRequest, res: Response) => {
+  try {
+    const questionId = Array.isArray(req.params.questionId) ? req.params.questionId[0] : req.params.questionId;
+    const userId = req.userInfo?._id?.toString();
+    const result = await ExamService.deleteQuestion(questionId, userId);
+    return res.status(200).json({ success: true, data: result });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getExamResultsForTeacher = async (req: AuthRequest, res: Response) => {
+  try {
+    const examId = Array.isArray(req.params.examId) ? req.params.examId[0] : req.params.examId;
+    const userId = req.userInfo?._id?.toString();
+    const results = await ExamService.getExamResultsForTeacher(examId, userId);
+    return res.status(200).json({ success: true, data: results });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getAllStudentResults = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userInfo?._id?.toString();
+    const results = await ExamService.getAllStudentResults(userId);
+    return res.status(200).json({ success: true, data: results });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export const ExamController = {
     getAllExams,
     getSingleExam,
     submitExam,
     createExam,
     addQuestions,
-    getExamResult
+    getExamResult,
+    getTeacherExams,
+    updateExam,
+    deleteExam,
+    updateQuestion,
+    deleteQuestion,
+    getExamResultsForTeacher,
+    getAllStudentResults,
 };

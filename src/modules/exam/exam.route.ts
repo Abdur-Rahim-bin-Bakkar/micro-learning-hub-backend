@@ -44,13 +44,28 @@ router.post(
 
 
 // Get Teacher Exams
-router.get("/teacher/all", () => { });
+router.get(
+  "/teacher/all",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.getTeacherExams
+);
 
 // Update Exam
-router.patch("/teacher/:examId", () => { });
+router.patch(
+  "/teacher/:examId",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.updateExam
+);
 
 // Delete Exam
-router.delete("/teacher/:examId", () => { });
+router.delete(
+  "/teacher/:examId",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.deleteExam
+);
 
 // Add Questions
 router.post(
@@ -61,12 +76,35 @@ router.post(
 );
 
 // Update Question
-router.patch("/teacher/question/:questionId", () => { });
+router.patch(
+  "/teacher/question/:questionId",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.updateQuestion
+);
 
 // Delete Question
-router.delete("/teacher/question/:questionId", () => { });
+router.delete(
+  "/teacher/question/:questionId",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.deleteQuestion
+);
 
-// Get Exam Results
-router.get("/teacher/:examId/results", () => { });
+// Get Exam Results (teacher view)
+router.get(
+  "/teacher/:examId/results",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.getExamResultsForTeacher
+);
+
+// Student: Get all my results
+router.get(
+  "/student/my-results",
+  authMiddleware.verifyToken,
+  checkTSA.verifyTSA,
+  ExamController.getAllStudentResults
+);
 
 export default router;

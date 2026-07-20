@@ -1,31 +1,21 @@
 import { Router } from "express";
-import {
-    getSingleUser,
-    getUsersByRole
-} from "./user.controller";
-
+import { UserController } from "./user.controller";
+import authMiddleware = require("../../middlewares/auth.middleware");
+import checkTSA = require("../../middlewares/checkTSA");
 
 const router = Router();
 
+router.get("/role/:role", UserController.getUsersByRole);
+router.get("/:id", UserController.getSingleUser);
 
-// Get users by role
-// Example:
-// /api/users/role/teacher
-// /api/users/role/student
+router.put("/profile", authMiddleware.verifyToken, checkTSA.verifyTSA, UserController.updateProfile);
+router.delete("/profile", authMiddleware.verifyToken, checkTSA.verifyTSA, UserController.deleteAccount);
 
-router.get(
-    "/role/:role",
-    getUsersByRole
-);
-
-
-// Get single user
-
-router.get(
-    "/:id",
-    getSingleUser
-);
-
-
+// Admin: get all users with search & filter
+router.get("/admin/all", authMiddleware.verifyToken, checkTSA.verifyTSA, UserController.getAllUsers);
+// Admin: delete any user
+router.delete("/admin/:id", authMiddleware.verifyToken, checkTSA.verifyTSA, UserController.deleteUser);
+// Admin: get user details
+router.get("/admin/:id/details", authMiddleware.verifyToken, checkTSA.verifyTSA, UserController.getUserDetails);
 
 export default router;

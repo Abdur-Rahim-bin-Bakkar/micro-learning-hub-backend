@@ -9,6 +9,7 @@ import userRoutes from "./modules/user/user.routes";
 import paymentRoute from "./modules/payment/payment.route";
 // import paymentRoutes from "./modules/payment/payment.route";
 import examRoutes from "./modules/exam/exam.route";
+import dashboardRoutes from "./modules/dashboard/dashboard.route";
 const app = express();
 
 // Middlewares
@@ -52,5 +53,6 @@ app.use(
   paymentRoute
 );
 app.use("/api/exams", examRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 export default app; 
